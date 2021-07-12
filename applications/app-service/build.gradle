@@ -1,0 +1,17 @@
+apply plugin: 'org.springframework.boot'
+
+dependencies {
+    implementation project(":reactive-h2")
+	implementation project(':reactive-web')
+    implementation project(':model')
+    implementation project(':usecase')
+    implementation group: 'io.github.boostchicken', name: 'spring-data-dynamodb', version: '5.2.5'
+    compile 'org.springframework.boot:spring-boot-starter'
+    compile 'org.reactivecommons.utils:object-mapper:0.1.0'
+    runtime('org.springframework.boot:spring-boot-devtools')
+}
+
+task explodedJar(type: Copy) {
+    with jar
+    into "${buildDir}/exploded"
+}
