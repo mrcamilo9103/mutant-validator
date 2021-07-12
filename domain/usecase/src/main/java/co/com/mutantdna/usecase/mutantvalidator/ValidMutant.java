@@ -66,7 +66,6 @@ public class ValidMutant {
     }
 
     public static boolean searchDiagonals(String[][] dna) {
-        // Calcula la altura y la anchura de la matriz introducida.
         int n = dna.length;
 
         for ( int diagonal = 1 - n; diagonal <= n - 1; diagonal += 1 ) {

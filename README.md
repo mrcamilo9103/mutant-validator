@@ -1,47 +1,62 @@
-# Proyecto Base Implementando Clean Architecture
+# Identificar ADN mutante
 
-## Antes de Iniciar
+## Compilar y ejecutar aplicaciÃ³n.
+En este repositorio se encuentra el cÃ³digo fuente del proyecto, para correr y desplegar el servicio local, se debe ejecutar desde una terminal las siguientes instrucciones en la raÃ­z del proyecto.
 
-Empezaremos por explicar los diferentes componentes del proyectos y partiremos de los componentes externos, continuando con los componentes core de negocio (dominio) y por último el inicio y configuración de la aplicación.
+    ./gradlew clean build
+    java -jar applications/app-service/build/libs/app-service.jar
 
-Lee el artículo [Clean Architecture — Aislando los detalles](https://medium.com/bancolombia-tech/clean-architecture-aislando-los-detalles-4f9530f35d7a)
+El servicio se levanta en el puerto 8080, si se desea cambiar el puerto, deberÃ¡ actualizar la variable de configuraciÃ³n <port> que se encuentra en el archivo ..\applications\app-service\src\main\resources\application.yaml.
 
-# Arquitectura
+### Jacoco Report
+Actualmente el proyecto tiene una cobertura de pruebas superior al 80%, para visualizar esta cobertura de forma grÃ¡fica deberÃ¡ ejecutar el siguiente comando desde una terminal en la carpeta raÃ­z del proyecto.
 
-![Clean Architecture](https://miro.medium.com/max/1400/1*ZdlHz8B0-qu9Y-QO3AXR_w.png)
+    gradlew clean jacocoMergedReport
 
-## Domain
+![jacocoCodeCoverage.png](jacocoCodeCoverage.png)
+El reporte es generado en \build\reports\jacocoMergedReport\html en formato html.
 
-Es el módulo más interno de la arquitectura, pertenece a la capa del dominio y encapsula la lógica y reglas del negocio mediante modelos y entidades del dominio.
+### Pruebas de performance
 
-## Usecases
+Se ejecutaron las pruebas de performance sobre el microservicio usando la herramienta Jmeter, en esta se logrÃ³ un rendimiento de aproximado de 3981.7 TPS, con 2000 usuarios concurrentes, una rampa de subida de un 4 minutos y una duraciÃ³n de 8 minutos. Aclarando que las pruebas se realizan en una maquina local.
 
-Este módulo gradle perteneciente a la capa del dominio, implementa los casos de uso del sistema, define lógica de aplicación y reacciona a las invocaciones desde el módulo de entry points, orquestando los flujos hacia el módulo de entities.
+![performanceTest.png](performanceTest.png)
 
-## Infrastructure
+# REST API
 
-### Helpers
+La aplicaciÃ³n expone un servidor web con los siguientes recursos:
 
-En el apartado de helpers tendremos utilidades generales para los Driven Adapters y Entry Points.
+### Validar secuencia ADN
+Recurso encargado de validar si la secuencia de ADN ingresada corresponde a la de un mutante o humano.
+### Request
 
-Estas utilidades no están arraigadas a objetos concretos, se realiza el uso de generics para modelar comportamientos
-genéricos de los diferentes objetos de persistencia que puedan existir, este tipo de implementaciones se realizan
-basadas en el patrón de diseño [Unit of Work y Repository](https://medium.com/@krzychukosobudzki/repository-design-pattern-bc490b256006)
+`POST /api/v1/mutant`
 
-Estas clases no puede existir solas y debe heredarse su compartimiento en los **Driven Adapters**
+    curl --location --request POST 'http://localhost:8080/api/v1/mutant' --header 'Content-Type: application/json' --data-raw '{"dna": ["AGGEGG","AAGIGC","ATGIGI","TIIIIG","CGAATA","ITTTTG"]}'
 
-### Driven Adapters
+### Response
 
-Los driven adapter representan implementaciones externas a nuestro sistema, como lo son conexiones a servicios rest,
-soap, bases de datos, lectura de archivos planos, y en concreto cualquier origen y fuente de datos con la que debamos
-interactuar.
+    HTTP/1.1 200 OK (ADN corresponde a un mutante)
+    HTTP/1.1 403 Forbidden (ADN corresponde a un humano)
 
-### Entry Points
+## EstadÃ­sticas
+Devuelve un json con las estadÃ­sticas de las verificaciones de ADN.
 
-Los entry points representan los puntos de entrada de la aplicación o el inicio de los flujos de negocio.
+### Request
 
-## Application
+    `GET /api/v1/stats`
 
-Este módulo es el más externo de la arquitectura, es el encargado de ensamblar los distintos módulos, resolver las dependencias y crear los beans de los casos de use (UseCases) de forma automática, inyectando en éstos instancias concretas de las dependencias declaradas. Además inicia la aplicación (es el único módulo del proyecto donde encontraremos la función “public static void main(String[] args)”.
+    curl --location --request GET 'http://localhost:8080/api/v1/stats'
 
-**Los beans de los casos de uso se disponibilizan automaticamente gracias a un '@ComponentScan' ubicado en esta capa.**
+### Response
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+        
+    {
+        "countMutantDna": 1,
+        "countHumanDna": 8,
+        "ratio": 0.1
+    }
+
+
