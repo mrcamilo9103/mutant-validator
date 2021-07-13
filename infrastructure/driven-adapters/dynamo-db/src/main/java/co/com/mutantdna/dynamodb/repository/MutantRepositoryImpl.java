@@ -1,6 +1,7 @@
 package co.com.mutantdna.dynamodb.repository;
 
 import co.com.mutantdna.dynamodb.mapper.MutantMapper;
+import co.com.mutantdna.dynamodb.model.MutantData;
 import co.com.mutantdna.model.Mutant;
 import co.com.mutantdna.model.Stats;
 import co.com.mutantdna.model.gateway.MutantGateway;
@@ -17,8 +18,8 @@ public class MutantRepositoryImpl implements MutantGateway {
 
     @Override
     public Mono<Mutant> save(Mutant mutant) {
-
-        return Mono.just(dynamoRepository.save(mutantMapper.toData(mutant)))
+        MutantData mutantSaved =  dynamoRepository.save(mutantMapper.toData(mutant));
+        return Mono.just(mutantSaved)
                 .map(mutantMapper::toEntity);
     }
 

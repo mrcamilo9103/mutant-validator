@@ -10,7 +10,7 @@ public class MutMapperImpl implements MutantMapper {
     @Override
     public MutantData toData(Mutant mutant) {
         return MutantData.builder()
-                .dna(mutant.getId())
+                .id(mutant.getId())
                 .isMutant(mutant.isMutant())
                 .build();
     }
@@ -18,7 +18,7 @@ public class MutMapperImpl implements MutantMapper {
     @Override
     public Mutant toEntity(MutantData mutantEntity) {
         return Mutant.builder()
-                .id(mutantEntity.getDna())
+                .id(mutantEntity.getId())
                 .isMutant(mutantEntity.isMutant())
                 .build();
     }

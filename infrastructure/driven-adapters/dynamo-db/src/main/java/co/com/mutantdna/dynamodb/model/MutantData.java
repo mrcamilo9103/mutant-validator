@@ -15,7 +15,7 @@ import lombok.Setter;
 public class MutantData {
 
     @DynamoDBHashKey
-    private String dna;
+    private String id;
 
     @DynamoDBAttribute(attributeName = "mutant")
     @DynamoDBIndexHashKey(globalSecondaryIndexName = "mutant-index")
