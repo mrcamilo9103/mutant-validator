@@ -1,7 +1,8 @@
 apply plugin: 'org.springframework.boot'
 
 dependencies {
-    implementation project(":reactive-h2")
+    implementation project(":dynamo-db")
+   // implementation project(":reactive-h2")
 	implementation project(':reactive-web')
     implementation project(':model')
     implementation project(':usecase')

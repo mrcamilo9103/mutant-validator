@@ -21,7 +21,10 @@ public class MutantValidatorUseCase {
         String[][] dna = Arrays.stream(mutantRequest.getDna()).map(value -> value.split(""))
                 .toArray(String[][]::new);
     return Mono.fromCallable(() -> validMutant.isMutant(dna))
-            .map(valid -> Mutant.builder().isMutant(valid).dna(mutantRequest.getDna()).build())
+            .map(valid -> Mutant.builder().isMutant(valid)
+                    .dna(mutantRequest.getDna())
+                    .id(Arrays.toString(mutantRequest.getDna()))
+                    .build())
             .flatMap(mutantRepository::save)
             .filter(dnaTest -> !dnaTest.isMutant())
             .flatMap(m-> Mono.error(new TechnicalException(TechnicalExceptionEnum.BUSINESS_NOT_IS_A_MUTANT)))

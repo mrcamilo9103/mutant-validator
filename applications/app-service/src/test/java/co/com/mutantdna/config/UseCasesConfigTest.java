@@ -2,7 +2,6 @@ package co.com.mutantdna.config;
 
 import co.com.mutantdna.model.gateway.MutantGateway;
 import co.com.mutantdna.usecase.mutantvalidator.ValidMutant;
-import io.r2dbc.spi.ConnectionFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -22,8 +21,8 @@ public class UseCasesConfigTest {
     @Mock
     private MutantGateway mutantRepository;
 
-    @Mock
-    private ConnectionFactory connectionFactory;
+//    @Mock
+//    private ConnectionFactory connectionFactory;
 
     @Before
     public void init(){
@@ -40,9 +39,9 @@ public class UseCasesConfigTest {
         assertNotNull(useCasesConfig.validMutant());
     }
 
-    @Test
-    public void connectionFactoryTest(){
-        assertNotNull(useCasesConfig.initializer(connectionFactory));
-    }
+//    @Test
+//    public void connectionFactoryTest(){
+//        assertNotNull(useCasesConfig.initializer(connectionFactory));
+//    }
 
 }

@@ -2,7 +2,7 @@ dependencies {
   compile project(':model')
 
   implementation 'org.springframework:spring-context'
-
+  implementation group: 'com.github.derjust', name: 'spring-data-dynamodb', version: '5.1.0'
   compile 'org.springframework.boot:spring-boot-starter-data-r2dbc'
   runtimeOnly 'com.h2database:h2'
   runtimeOnly 'io.r2dbc:r2dbc-h2'

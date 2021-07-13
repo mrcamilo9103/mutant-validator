@@ -12,6 +12,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Mutant {
+    private String id;
     private String[] dna;
     private boolean isMutant;
 }

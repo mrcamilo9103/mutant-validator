@@ -1,0 +1,10 @@
+dependencies {
+  compile project(':model')
+  compile 'org.springframework.data:spring-data-commons:2.1.1.RELEASE'
+  compile group: 'software.amazon.awssdk', name: 'dynamodb-enhanced', version: '2.13.29'
+  implementation group: 'com.github.derjust', name: 'spring-data-dynamodb', version: '5.1.0'
+  implementation 'org.springframework:spring-context'
+  implementation 'org.springframework.boot:spring-boot-starter-actuator'
+  implementation 'org.mapstruct:mapstruct:1.3.1.Final'
+  annotationProcessor 'org.mapstruct:mapstruct-processor:1.3.1.Final'
+}
