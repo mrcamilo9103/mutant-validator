@@ -13,12 +13,17 @@ import org.springframework.context.annotation.Configuration;
 @EnableDynamoDBRepositories(basePackageClasses = DynamoRepository.class)
 public class DynamoDBConfig {
 
+//    @Bean
+//    public AmazonDynamoDB amazonDynamoDB() {
+//        return AmazonDynamoDBClientBuilder.standard().withEndpointConfiguration(
+//            new AwsClientBuilder.
+//                EndpointConfiguration("http://localhost:8000", Regions.US_EAST_1.getName()))
+//               .build();
+//
+//    }
+
     @Bean
     public AmazonDynamoDB amazonDynamoDB() {
-        return AmazonDynamoDBClientBuilder.standard().withEndpointConfiguration(
-            new AwsClientBuilder.
-                EndpointConfiguration("http://localhost:8000", Regions.US_EAST_1.getName()))
-               .build();
-
+        return AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_EAST_2).build();
     }
 }

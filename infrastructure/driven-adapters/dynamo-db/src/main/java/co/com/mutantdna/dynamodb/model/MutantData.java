@@ -18,6 +18,5 @@ public class MutantData {
     private String id;
 
     @DynamoDBAttribute(attributeName = "mutant")
-    @DynamoDBIndexHashKey(globalSecondaryIndexName = "mutant-index")
     private boolean isMutant;
 }

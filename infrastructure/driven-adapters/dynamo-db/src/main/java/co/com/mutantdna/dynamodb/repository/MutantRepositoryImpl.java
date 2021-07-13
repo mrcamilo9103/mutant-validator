@@ -18,8 +18,7 @@ public class MutantRepositoryImpl implements MutantGateway {
 
     @Override
     public Mono<Mutant> save(Mutant mutant) {
-        MutantData mutantSaved =  dynamoRepository.save(mutantMapper.toData(mutant));
-        return Mono.just(mutantSaved)
+        return Mono.just(dynamoRepository.save(mutantMapper.toData(mutant)))
                 .map(mutantMapper::toEntity);
     }
 
