@@ -1,7 +1,11 @@
 package co.com.mutantdna.config;
 
 import co.com.mutantdna.dynamodb.repository.DynamoRepository;
-import com.amazonaws.client.builder.AwsClientBuilder;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
+import com.amazonaws.auth.EnvironmentVariableCredentialsProvider;
+import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
@@ -24,6 +28,8 @@ public class DynamoDBConfig {
 
     @Bean
     public AmazonDynamoDB amazonDynamoDB() {
-        return AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_EAST_2).build();
+        return AmazonDynamoDBClientBuilder
+                .standard()
+                .withRegion(Regions.US_EAST_2).build();
     }
 }

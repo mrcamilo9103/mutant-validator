@@ -1,6 +1,7 @@
 package co.com.mutantdna.api;
 
 import co.com.mutantdna.model.MutantRequest;
+import co.com.mutantdna.model.constants.Constants;
 import co.com.mutantdna.model.exceptions.TechnicalException;
 import co.com.mutantdna.usecase.mutantvalidator.MutantValidatorUseCase;
 import lombok.RequiredArgsConstructor;
@@ -28,4 +29,6 @@ public class Handler {
         return mutantValidatorUseCase.stats()
                 .flatMap(ResponseUtil::responseOk);
     }
+
+
 }

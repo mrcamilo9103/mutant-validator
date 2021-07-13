@@ -2,6 +2,7 @@ package co.com.mutantdna.usecase.mutantvalidator;
 
 import co.com.mutantdna.model.MutantRequest;
 import co.com.mutantdna.model.Stats;
+import co.com.mutantdna.model.exceptions.TechnicalException;
 import co.com.mutantdna.model.gateway.MutantGateway;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,6 +40,13 @@ public class MutantValidatorUseCaseTest {
     }
 
     @Test
+    public void findMutantNotAllowedCharacters(){
+        mutantValidatorUseCase.findMutant(buildMutantBadRequest())
+                .as(StepVerifier::create)
+                .verifyError(TechnicalException.class);
+    }
+
+    @Test
     public void statsOK(){
         when(mutantRepository.getStats()).thenReturn(Mono.just(buildStats()));
         mutantValidatorUseCase.stats()
@@ -49,7 +57,13 @@ public class MutantValidatorUseCaseTest {
 
     private MutantRequest buildMutantRequest(){
         return MutantRequest.builder()
-                .dna(new String[]{"ABC","CFT"})
+                .dna(new String[]{"CCGC","GATG"})
+                .build();
+    }
+
+    private MutantRequest buildMutantBadRequest(){
+        return MutantRequest.builder()
+                .dna(new String[]{"123","CFT"})
                 .build();
     }
 

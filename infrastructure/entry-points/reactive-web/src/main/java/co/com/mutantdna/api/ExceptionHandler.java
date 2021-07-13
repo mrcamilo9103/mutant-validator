@@ -15,7 +15,9 @@ import org.springframework.web.reactive.function.server.*;
 import reactor.core.publisher.Mono;
 
 import static co.com.mutantdna.model.enums.TechnicalExceptionEnum.BUSINESS_NOT_IS_A_MUTANT;
+import static co.com.mutantdna.model.enums.TechnicalExceptionEnum.NOT_ALLOWED_DNA_CHARS;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @Component
 @Order(-2)
@@ -41,6 +43,9 @@ public class ExceptionHandler extends AbstractErrorWebExceptionHandler {
             TechnicalException exception = (TechnicalException)throwable;
             if(exception.getException().equals(BUSINESS_NOT_IS_A_MUTANT)){
                 return ResponseUtil.buildResponse(FORBIDDEN,buildError((TechnicalException)throwable, request));
+            }
+            if(exception.getException().equals(NOT_ALLOWED_DNA_CHARS)){
+                return ResponseUtil.buildResponse(BAD_REQUEST,buildError((TechnicalException)throwable, request));
             }
             log.error(throwable.getMessage());
             return ResponseUtil.responseFail(buildError((TechnicalException)throwable, request));
