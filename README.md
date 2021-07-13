@@ -20,7 +20,6 @@
           Se considera inválida una solicitud que no cumpla las siguientes características:
             - La secuencia ADN solo puede contener las letras (A,T,C,G). No importa sin son letras
               mayúsculas o minúsculas.
-            - La secuencia ADN debe de ser un array de dimensiones NxN
 
     + **GET → /api/v1/stats**
       Al consumir esta operación podrás obtener una estadística de los humanos mutantes y no mutantes.
