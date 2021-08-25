@@ -30,6 +30,9 @@ public class DynamoDBConfig {
     public AmazonDynamoDB amazonDynamoDB() {
         return AmazonDynamoDBClientBuilder
                 .standard()
+                .withCredentials(
+                        new AWSStaticCredentialsProvider(new BasicAWSCredentials("AKIAWBJ6SHCFQGEH7FNF",
+                                "HoY3SZL2jGZNr5phUhDAQr6NUjZXB/LeQC7eXlEn")))
                 .withRegion(Regions.US_EAST_2).build();
     }
 }

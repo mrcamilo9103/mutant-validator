@@ -10,53 +10,50 @@ import java.util.concurrent.ExecutionException;
 @Builder(toBuilder = true)
 public class AsyncMutantTask {
 
-    private CompletableFuture<Boolean> searchColumns;
-    private CompletableFuture<Boolean> searchRows;
-    private CompletableFuture<Boolean> searchLeftDiagonal;
-    private CompletableFuture<Boolean> searchRightDiagonal;
+    private CompletableFuture<Integer> searchColumns;
+    private CompletableFuture<Integer> searchRows;
+    private CompletableFuture<Integer> searchLeftDiagonal;
+    private CompletableFuture<Integer> searchRightDiagonal;
+    private static final Integer MIN_COUNT_OCCURRENCE = 2;
 
     public boolean completeExecutions() throws ExecutionException, InterruptedException {
-        this.searchColumns.whenComplete((isMutant, exception) -> {
-            if(Boolean.TRUE.equals(isMutant)){
-                searchRows.complete(false);
-                searchLeftDiagonal.complete(false);
-                searchRightDiagonal.complete(false);
+
+        this.searchColumns.whenComplete((countOccurrences, exception) -> {
+            if(MIN_COUNT_OCCURRENCE.equals(countOccurrences)){
+                searchRows.complete(0);
+                searchLeftDiagonal.complete(0);
+                searchRightDiagonal.complete(0);
             }
         });
 
-        this.searchRows.whenComplete((isMutant, exception) -> {
-            if(Boolean.TRUE.equals(isMutant)){
-                searchColumns.complete(false);
-                searchLeftDiagonal.complete(false);
-                searchRightDiagonal.complete(false);
+        this.searchRows.whenComplete((countOccurrences, exception) -> {
+            if(MIN_COUNT_OCCURRENCE.equals(countOccurrences)){
+                searchColumns.complete(0);
+                searchLeftDiagonal.complete(0);
+                searchRightDiagonal.complete(0);
             }
         });
 
-        this.searchLeftDiagonal.whenComplete((isMutant, exception) -> {
-            if(Boolean.TRUE.equals(isMutant)){
-                searchRows.complete(false);
-                searchColumns.complete(false);
-                searchRightDiagonal.complete(false);
+        this.searchLeftDiagonal.whenComplete((countOccurrences, exception) -> {
+            if(MIN_COUNT_OCCURRENCE.equals(countOccurrences)){
+                searchRows.complete(0);
+                searchColumns.complete(0);
+                searchRightDiagonal.complete(0);
             }
         });
 
-        this.searchRightDiagonal.whenComplete((isMutant, exception) -> {
-            if(Boolean.TRUE.equals(isMutant)){
-                searchRows.complete(false);
-                searchColumns.complete(false);
-                searchLeftDiagonal.complete(false);
+        this.searchRightDiagonal.whenComplete((countOccurrences, exception) -> {
+            if(MIN_COUNT_OCCURRENCE.equals(countOccurrences)){
+                searchRows.complete(0);
+                searchColumns.complete(0);
+                searchLeftDiagonal.complete(0);
             }
         });
-
 
         return validateIsMutant();
     }
 
 
-
-    /**
-     * Valida si almenos uno de los 4 procesos async tuvo como respuesta (true)
-     */
     private boolean validateIsMutant() throws ExecutionException, InterruptedException {
         CompletableFuture.allOf(
                 searchColumns,
@@ -64,9 +61,9 @@ public class AsyncMutantTask {
                 searchLeftDiagonal,
                 searchRightDiagonal
         ).join();
-        return 	searchColumns.get() ||
-                searchRows.get() ||
-                searchLeftDiagonal.get() ||
-                searchRightDiagonal.get();
+        return 	(searchColumns.get() +
+                searchRows.get() +
+                searchLeftDiagonal.get() +
+                searchRightDiagonal.get()) > 1;
     }
 }

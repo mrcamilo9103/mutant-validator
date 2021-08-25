@@ -10,7 +10,7 @@ import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class ValidMutantTest {
+public class    ValidMutantTest {
 
     @InjectMocks
     private ValidMutant validMutant;

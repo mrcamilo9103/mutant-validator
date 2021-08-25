@@ -32,8 +32,8 @@ public class ValidMutant {
         }
     }
 
-    public static boolean searchRows(String[][] dna){
-
+    public static Integer searchRows(String[][] dna){
+        int countOccurrences = 0;
         for(int i = 0; i < dna.length; i ++){
            MutantSequence mutantSequence = MutantSequence.builder().before("").build();
 
@@ -42,15 +42,15 @@ public class ValidMutant {
                 mutantSequence.setCurrent(dna[i][j]);
 
                 if(validateSequence(mutantSequence)) {
-                    return true;
+                    countOccurrences +=  1;
                 }
             }
         }
-        return false;
+        return countOccurrences;
     }
 
-    public static boolean searchColumns(String[][] dna){
-
+    public static Integer searchColumns(String[][] dna){
+        int countOccurrences = 0;
         for(int i = 0; i < dna.length; i ++){
             MutantSequence mutantSequence = MutantSequence.builder().before("").build();
             for (int j = 0; j < dna.length; j ++){
@@ -58,14 +58,15 @@ public class ValidMutant {
                 mutantSequence.setCurrent(dna[j][i]);
 
                 if(validateSequence(mutantSequence)){
-                    return true;
+                    countOccurrences += 1;
                 }
             }
         }
-        return false;
+        return countOccurrences;
     }
 
-    public static boolean searchDiagonals(String[][] dna) {
+    public static Integer searchDiagonals(String[][] dna) {
+        int countOccurrences = 0;
         int n = dna.length;
 
         for ( int diagonal = 1 - n; diagonal <= n - 1; diagonal += 1 ) {
@@ -78,11 +79,11 @@ public class ValidMutant {
                 mutantSequence.setCurrent(dna[vertical][horizontal]);
 
                 if(validateSequence(mutantSequence)) {
-                    return true;
+                    countOccurrences += 1;
                 }
             }
         }
-        return false;
+        return countOccurrences;
     }
 
     public static String[][] reverseRow(String[][]dna){
